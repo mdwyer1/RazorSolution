@@ -1,0 +1,82 @@
+﻿@{
+    Page.Title = "Exercise01";
+    Layout = "~/_Layout.cshtml";
+    string data = Request.Form["InputName"];
+    string button = Request.Form["values"];
+
+    var meals = Request.Form["CheckBox"];
+}
+
+@section pagetitle
+{<h1>Exercise01: Basic Form Processing</h1>
+}
+
+<div>
+
+    @if (IsPost)
+    {
+        if (button.Equals("reset"))
+        {
+            data = "";
+        }
+
+
+        else if (button.Equals("submit"))
+        {
+            if (data.IsEmpty())
+            {
+                <p><span style="color:firebrick"> Please write your name </span></p>
+            }
+            else
+            {
+                if (meals.IsEmpty())
+                {
+                    <p><span style="color:firebrick">Please select the meal entries of your choice</span></p>
+                }
+                else
+                {
+                    <p><strong>@data</strong>,  I see that you have the following meal entries:</p>
+                    char[] delimiter = { ',' };
+
+                    <ul>
+                        @foreach (var item in meals.Split(delimiter))
+                        {
+                            <li>@item</li>
+                        }
+                    </ul>
+                }
+            }
+        }
+
+    }
+
+    <form id="EX01" action="" method="post">
+        <div class="row">
+            <div class="col-sm-3">
+                <p>Customer Name:</p>  &nbsp;  &nbsp;
+                <input type="text" id="inputName" name="inputName" value="@data" ; />
+            </div>
+
+            <div class="col-sm offset-1">
+                <label id="values"> Choose your meal items</label>
+                <br />
+                <input type="checkbox" id="CheckBox" name="CheckBox" value="Steak" />&nbsp;Steak<br />
+
+                <input type="checkbox" id="CheckBox" name="CheckBox" value="Seafood" />&nbsp;Seafood<br />
+
+                <input type="checkbox" id="CheckBox" name="CheckBox" value="Vegetables" />&nbsp;Vegetables<br />
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-3">
+                <button type="submit" name="values" value="submit" class="btn btn-primary">Submit</button>
+
+                <button type="submit" name="values" value="reset" class="btn">Reset</button>
+            </div>
+        </div>
+    </form>
+
+
+</div>
